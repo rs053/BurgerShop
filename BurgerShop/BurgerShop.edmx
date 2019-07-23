@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BurgerShopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="Menu_id" />
+          </Key>
+          <Property Name="Menu_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Item" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="15" />
+          <Property Name="order1" Type="nchar" MaxLength="15" />
+          <Property Name="order2" Type="nchar" MaxLength="15" />
+          <Property Name="order3" Type="nchar" MaxLength="15" />
+          <Property Name="Mobile" Type="nchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Register">
+          <Key>
+            <PropertyRef Name="Reg_id" />
+          </Key>
+          <Property Name="Reg_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Sign_In">
+          <Key>
+            <PropertyRef Name="User_id" />
+          </Key>
+          <Property Name="User_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nchar" MaxLength="10" />
+          <Property Name="Password" Type="nchar" MaxLength="10" />
+          <Property Name="Reg_id" Type="int" />
+        </EntityType>
+        <Association Name="FK_Register_Register">
+          <End Role="Register" Type="Self.Register" Multiplicity="1" />
+          <End Role="Register1" Type="Self.Register" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Register">
+              <PropertyRef Name="Reg_id" />
+            </Principal>
+            <Dependent Role="Register1">
+              <PropertyRef Name="Reg_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sign_In_Sign_In">
+          <End Role="Register" Type="Self.Register" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sign_In" Type="Self.Sign_In" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Register">
+              <PropertyRef Name="Reg_id" />
+            </Principal>
+            <Dependent Role="Sign_In">
+              <PropertyRef Name="Reg_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BurgerShopModelStoreContainer">
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Register" EntityType="Self.Register" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sign_In" EntityType="Self.Sign_In" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Register_Register" Association="Self.FK_Register_Register">
+            <End Role="Register" EntitySet="Register" />
+            <End Role="Register1" EntitySet="Register" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sign_In_Sign_In" Association="Self.FK_Sign_In_Sign_In">
+            <End Role="Register" EntitySet="Register" />
+            <End Role="Sign_In" EntitySet="Sign_In" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BurgerShopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="Menu_id" />
+          </Key>
+          <Property Name="Menu_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Item" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="order1" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="order2" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="order3" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Register">
+          <Key>
+            <PropertyRef Name="Reg_id" />
+          </Key>
+          <Property Name="Reg_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Register1" Relationship="Self.FK_Register_Register" FromRole="Register" ToRole="Register1" />
+          <NavigationProperty Name="Register2" Relationship="Self.FK_Register_Register" FromRole="Register1" ToRole="Register" />
+          <NavigationProperty Name="Sign_In" Relationship="Self.FK_Sign_In_Sign_In" FromRole="Register" ToRole="Sign_In" />
+        </EntityType>
+        <EntityType Name="Sign_In">
+          <Key>
+            <PropertyRef Name="User_id" />
+          </Key>
+          <Property Name="User_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Reg_id" Type="Int32" />
+          <NavigationProperty Name="Register" Relationship="Self.FK_Sign_In_Sign_In" FromRole="Sign_In" ToRole="Register" />
+        </EntityType>
+        <Association Name="FK_Register_Register">
+          <End Role="Register" Type="Self.Register" Multiplicity="1" />
+          <End Role="Register1" Type="Self.Register" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Register">
+              <PropertyRef Name="Reg_id" />
+            </Principal>
+            <Dependent Role="Register1">
+              <PropertyRef Name="Reg_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sign_In_Sign_In">
+          <End Role="Register" Type="Self.Register" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sign_In" Type="Self.Sign_In" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Register">
+              <PropertyRef Name="Reg_id" />
+            </Principal>
+            <Dependent Role="Sign_In">
+              <PropertyRef Name="Reg_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BurgerShopEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Menus" EntityType="Self.Menu" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="Registers" EntityType="Self.Register" />
+          <EntitySet Name="Sign_In" EntityType="Self.Sign_In" />
+          <AssociationSet Name="FK_Register_Register" Association="Self.FK_Register_Register">
+            <End Role="Register" EntitySet="Registers" />
+            <End Role="Register1" EntitySet="Registers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sign_In_Sign_In" Association="Self.FK_Sign_In_Sign_In">
+            <End Role="Register" EntitySet="Registers" />
+            <End Role="Sign_In" EntitySet="Sign_In" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BurgerShopModelStoreContainer" CdmEntityContainer="BurgerShopEntities">
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="BurgerShopModel.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="Menu_id" ColumnName="Menu_id" />
+                <ScalarProperty Name="Item" ColumnName="Item" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="BurgerShopModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="order1" ColumnName="order1" />
+                <ScalarProperty Name="order2" ColumnName="order2" />
+                <ScalarProperty Name="order3" ColumnName="order3" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Registers">
+            <EntityTypeMapping TypeName="BurgerShopModel.Register">
+              <MappingFragment StoreEntitySet="Register">
+                <ScalarProperty Name="Reg_id" ColumnName="Reg_id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sign_In">
+            <EntityTypeMapping TypeName="BurgerShopModel.Sign_In">
+              <MappingFragment StoreEntitySet="Sign_In">
+                <ScalarProperty Name="User_id" ColumnName="User_id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Reg_id" ColumnName="Reg_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
